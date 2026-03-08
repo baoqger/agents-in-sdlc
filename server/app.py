@@ -1,3 +1,5 @@
+# Flask application entry point for the Tailspin Toys crowdfunding API.
+# Configures the database, registers route blueprints, and starts the server.
 import os
 from flask import Flask
 from routes.games import games_bp
