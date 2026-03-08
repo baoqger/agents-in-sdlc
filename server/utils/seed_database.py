@@ -83,7 +83,8 @@ def create_games():
             
         print(f"Added {game_count} games with {len(categories)} categories and {len(publishers)} publishers")
 
-def seed_database():
+def seed_database() -> None:
+    """Seed the database with initial game, category, and publisher data from CSV."""
     create_games()
 
 if __name__ == '__main__':
