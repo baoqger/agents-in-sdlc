@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import GameList from '../components/GameList.svelte';
+import GamesWithFilters from '../components/GamesWithFilters.svelte';
 import "../styles/global.css";
 ---
 
@@ -11,6 +11,6 @@ import "../styles/global.css";
       <p class="text-xl text-slate-300">Find your next game! And maybe even back one! Explore our collection!</p>
     </div>
     
-    <GameList client:only="svelte" />
+    <GamesWithFilters client:only="svelte" />
   </div>
 </Layout>

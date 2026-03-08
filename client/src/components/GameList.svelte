@@ -13,14 +13,35 @@
         category_name?: string;
     }
 
-    let { games = $bindable([]) }: { games?: Game[] } = $props();
+    let { 
+        games = $bindable([]),
+        categoryId = null,
+        publisherId = null
+    }: { 
+        games?: Game[];
+        categoryId?: number | null;
+        publisherId?: number | null;
+    } = $props();
+    
     let loading = $state(true);
     let error = $state<string | null>(null);
 
     const fetchGames = async () => {
         loading = true;
+        error = null;
         try {
-            const response = await fetch('/api/games');
+            // Build query parameters
+            const params = new URLSearchParams();
+            if (categoryId !== null) {
+                params.append('category_id', categoryId.toString());
+            }
+            if (publisherId !== null) {
+                params.append('publisher_id', publisherId.toString());
+            }
+            
+            const url = `/api/games${params.toString() ? '?' + params.toString() : ''}`;
+            const response = await fetch(url);
+            
             if(response.ok) {
                 games = await response.json();
             } else {
@@ -32,6 +53,11 @@
             loading = false;
         }
     };
+
+    // Fetch games when filters change
+    $effect(() => {
+        fetchGames();
+    });
 
     onMount(() => {
         fetchGames();

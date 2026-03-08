@@ -131,3 +131,125 @@ test.describe('Game Listing and Navigation', () => {
     });
   });
 });
+
+test.describe('Game Filtering', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('should display filter controls on the homepage', async ({ page }) => {
+    await test.step('Verify filter section is visible', async () => {
+      await expect(page.getByText('Filter Games')).toBeVisible();
+    });
+
+    await test.step('Verify category filter is present', async () => {
+      const categoryFilter = page.getByTestId('category-filter');
+      await expect(categoryFilter).toBeVisible();
+      await expect(categoryFilter).toBeEnabled();
+    });
+
+    await test.step('Verify publisher filter is present', async () => {
+      const publisherFilter = page.getByTestId('publisher-filter');
+      await expect(publisherFilter).toBeVisible();
+      await expect(publisherFilter).toBeEnabled();
+    });
+
+    await test.step('Verify clear filters button is present', async () => {
+      const clearButton = page.getByTestId('clear-filters');
+      await expect(clearButton).toBeVisible();
+      await expect(clearButton).toBeEnabled();
+    });
+  });
+
+  test('should filter games by category', async ({ page }) => {
+    await test.step('Wait for games to load', async () => {
+      await expect(page.getByTestId('games-grid')).toBeVisible();
+    });
+
+    await test.step('Select a category from the filter', async () => {
+      const categoryFilter = page.getByTestId('category-filter');
+      await categoryFilter.selectOption({ index: 1 });
+    });
+
+    await test.step('Verify games are filtered', async () => {
+      // Wait for the filtered results to load
+      await page.waitForLoadState('networkidle');
+      const gameCards = page.getByTestId('game-card');
+      await expect(gameCards.first()).toBeVisible();
+    });
+  });
+
+  test('should filter games by publisher', async ({ page }) => {
+    await test.step('Wait for games to load', async () => {
+      await expect(page.getByTestId('games-grid')).toBeVisible();
+    });
+
+    await test.step('Select a publisher from the filter', async () => {
+      const publisherFilter = page.getByTestId('publisher-filter');
+      await publisherFilter.selectOption({ index: 1 });
+    });
+
+    await test.step('Verify games are filtered', async () => {
+      // Wait for the filtered results to load
+      await page.waitForLoadState('networkidle');
+      const gameCards = page.getByTestId('game-card');
+      await expect(gameCards.first()).toBeVisible();
+    });
+  });
+
+  test('should filter games by both category and publisher', async ({ page }) => {
+    await test.step('Wait for games to load', async () => {
+      await expect(page.getByTestId('games-grid')).toBeVisible();
+    });
+
+    await test.step('Select a category from the filter', async () => {
+      const categoryFilter = page.getByTestId('category-filter');
+      await categoryFilter.selectOption({ index: 1 });
+      await page.waitForLoadState('networkidle');
+    });
+
+    await test.step('Select a publisher from the filter', async () => {
+      const publisherFilter = page.getByTestId('publisher-filter');
+      await publisherFilter.selectOption({ index: 1 });
+      await page.waitForLoadState('networkidle');
+    });
+
+    await test.step('Verify filtered results are displayed', async () => {
+      // The games grid should still be visible even if there are no results
+      await expect(page.getByTestId('games-grid').or(page.getByText('No games available'))).toBeVisible();
+    });
+  });
+
+  test('should clear all filters when clicking clear filters button', async ({ page }) => {
+    let initialGameCount: number;
+
+    await test.step('Wait for games to load and get initial count', async () => {
+      await expect(page.getByTestId('games-grid')).toBeVisible();
+      initialGameCount = await page.getByTestId('game-card').count();
+    });
+
+    await test.step('Apply a category filter', async () => {
+      const categoryFilter = page.getByTestId('category-filter');
+      await categoryFilter.selectOption({ index: 1 });
+      await page.waitForLoadState('networkidle');
+    });
+
+    await test.step('Click clear filters button', async () => {
+      const clearButton = page.getByTestId('clear-filters');
+      await clearButton.click();
+      await page.waitForLoadState('networkidle');
+    });
+
+    await test.step('Verify all games are displayed again', async () => {
+      const gameCards = page.getByTestId('game-card');
+      expect(await gameCards.count()).toBe(initialGameCount);
+    });
+
+    await test.step('Verify filters are reset to default', async () => {
+      const categoryFilter = page.getByTestId('category-filter');
+      const publisherFilter = page.getByTestId('publisher-filter');
+      await expect(categoryFilter).toHaveValue('');
+      await expect(publisherFilter).toHaveValue('');
+    });
+  });
+});
