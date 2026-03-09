@@ -18,6 +18,12 @@ A script file has been created to launch the site. You can run it by:
 
 Then navigate to the [website](http://localhost:4321) to see the site!
 
+## Features
+
+### High Contrast Mode
+
+The site includes a high contrast mode toggle in the header for users who need improved colour contrast (WCAG 2.1 Level AA). Click the **High Contrast** button at the top-right of the page to enable it. The preference is saved in the browser's `localStorage` and automatically restored on the next visit.
+
 ## License 
 
 This project is licensed under the terms of the MIT open source license. Please refer to the [LICENSE](./LICENSE) for the full terms.
