@@ -1,1 +1,109 @@
 @import "tailwindcss";
+
+/* =====================================================================
+   High Contrast Mode — WCAG 2.1 Level AA
+   Activated by adding the 'high-contrast' class to <html>.
+   All overrides use !important so they win over Tailwind utility classes.
+   ===================================================================== */
+
+html.high-contrast,
+html.high-contrast body {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Header */
+html.high-contrast header {
+    background-color: #000000 !important;
+    border-bottom: 2px solid #ffffff !important;
+}
+
+/* Navigation drop-down */
+html.high-contrast nav {
+    background-color: #000000 !important;
+    border: 2px solid #ffffff !important;
+}
+
+html.high-contrast nav a {
+    color: #ffff00 !important;
+}
+
+html.high-contrast nav a:hover {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+/* Links */
+html.high-contrast a {
+    color: #ffff00 !important;
+    text-decoration: underline !important;
+}
+
+html.high-contrast a:hover {
+    color: #ffffff !important;
+}
+
+/* Buttons */
+html.high-contrast button {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+}
+
+html.high-contrast button:hover {
+    background-color: #333333 !important;
+}
+
+/* Form controls */
+html.high-contrast select,
+html.high-contrast input,
+html.high-contrast textarea {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+}
+
+html.high-contrast option {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Focus indicators — enhanced yellow ring in high contrast mode */
+html.high-contrast *:focus {
+    outline: 3px solid #ffff00 !important;
+    outline-offset: 2px !important;
+}
+
+/* Slate and coloured backgrounds used throughout the site */
+html.high-contrast [class*="bg-slate"],
+html.high-contrast [class*="bg-blue"],
+html.high-contrast [class*="bg-purple"] {
+    background-color: #000000 !important;
+}
+
+/* Slate and coloured text */
+html.high-contrast [class*="text-slate"],
+html.high-contrast [class*="text-blue"],
+html.high-contrast [class*="text-purple"],
+html.high-contrast [class*="text-red"] {
+    color: #ffffff !important;
+}
+
+/* Borders */
+html.high-contrast [class*="border-slate"],
+html.high-contrast [class*="border-blue"] {
+    border-color: #ffffff !important;
+}
+
+/* Game cards — ensure the card link renders with a clear border */
+html.high-contrast [data-testid="game-card"] {
+    border: 2px solid #ffffff !important;
+}
+
+/* Category and publisher badges */
+html.high-contrast [data-testid="game-category"],
+html.high-contrast [data-testid="game-publisher"] {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+}
